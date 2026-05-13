@@ -83,7 +83,7 @@ describe('Basic user flow for Website', () => {
 
   // Check to make sure that after clicking "Add to Cart" on every <product-item> that the Cart
   // number in the top right has been correctly updated
-  it.skip('Checking number of items in cart on screen', async () => {
+  it('Checking number of items in cart on screen', async () => {
     console.log('Checking number of items in cart on screen...');
 
     /**
@@ -94,6 +94,19 @@ describe('Basic user flow for Website', () => {
      * Remember to remove the .skip from this it once you are finished writing this test.
      */
 
+      const items = await page.$$('product-item');
+
+      for (let i = 0; i < items.length; ++i)
+      {
+        const shadowRootHandle = await items[i].getProperty('shadowRoot');
+        const button = await shadowRootHandle.$('button');
+        const innerTextButton = await button.getProperty('innerText');
+        if (await innerTextButton.jsonValue() == "Add to Cart") await button.click();
+      }
+
+      const innerTextCartCount = await page.$('#cart-count');
+      const innerTextCartCountValue = await innerTextCartCount.getProperty('innerText');
+      expect(await innerTextCartCountValue.jsonValue()).toBe("20");
   }, 10000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
