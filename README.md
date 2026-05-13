@@ -16,7 +16,7 @@ Reason: Because that allows continuous testing when new features are added to en
 
 No
 
-Here, a end-to-end test would not be appropriate as end to end tests are aimed at testing user workflow, and UI elements; rather than testing functions/logic of an application. In this case, a Unit Test for the function would be more appropriate. 
+Here, a end-to-end test would not be appropriate as end to end tests are aimed at testing the entire user workflow, and UI elements; rather than testing one functions/one part of the logic of an application. In this case, a Unit Test for that function would be more appropriate. 
 
 ---
 
