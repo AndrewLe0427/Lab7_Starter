@@ -94,19 +94,19 @@ describe('Basic user flow for Website', () => {
      * Remember to remove the .skip from this it once you are finished writing this test.
      */
 
-      const items = await page.$$('product-item');
+    const items = await page.$$('product-item');
 
-      for (let i = 0; i < items.length; ++i)
-      {
-        const shadowRootHandle = await items[i].getProperty('shadowRoot');
-        const button = await shadowRootHandle.$('button');
-        const innerTextButton = await button.getProperty('innerText');
-        if (await innerTextButton.jsonValue() == "Add to Cart") await button.click();
-      }
+    for (let i = 0; i < items.length; ++i)
+    {
+      const shadowRootHandle = await items[i].getProperty('shadowRoot');
+      const button = await shadowRootHandle.$('button');
+      const innerTextButton = await button.getProperty('innerText');
+      if (await innerTextButton.jsonValue() == "Add to Cart") await button.click();
+    }
 
-      const innerTextCartCount = await page.$('#cart-count');
-      const innerTextCartCountValue = await innerTextCartCount.getProperty('innerText');
-      expect(await innerTextCartCountValue.jsonValue()).toBe("20");
+    const innerTextCartCount = await page.$('#cart-count');
+    const innerTextCartCountValue = await innerTextCartCount.getProperty('innerText');
+    expect(await innerTextCartCountValue.jsonValue()).toBe("20");
   }, 15000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
@@ -149,7 +149,7 @@ describe('Basic user flow for Website', () => {
 
   // Checking to make sure that if you remove all of the items from the cart that the cart
   // number in the top right of the screen is 0
-  it.skip('Checking number of items in cart on screen after removing from cart', async () => {
+  it('Checking number of items in cart on screen after removing from cart', async () => {
     console.log('Checking number of items in cart on screen...');
 
     /**
@@ -159,7 +159,20 @@ describe('Basic user flow for Website', () => {
      * Remember to remove the .skip from this it once you are finished writing this test.
      */
 
-  }, 10000);
+    const items = await page.$$('product-item');
+
+    for (let i = 0; i < items.length; ++i)
+    {
+      const shadowRootHandle = await items[i].getProperty('shadowRoot');
+      const button = await shadowRootHandle.$('button');
+      const innerTextButton = await button.getProperty('innerText');
+      if (await innerTextButton.jsonValue() == "Remove from Cart") await button.click();
+    }
+
+    const innerTextCartCount = await page.$eval('#cart-count', element => element.innerText);
+    expect(await innerTextCartCount).toBe("0");
+
+  }, 15000);
 
   // Checking to make sure that it remembers us removing everything from the cart
   // after we refresh the page
